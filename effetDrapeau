@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+ 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Flotte au vent joli drapeau !</title>
+<style type="text/css">
+html, body {height:100%;
+            width:100%;
+            margin:0;
+            padding:0;}
+body {
+	background-color:#000000;}      
+ 
+#one {position:absolute;
+	  top:100px;
+	  left:100px;
+	  }
+ 
+</style>
+ 
+<script type="text/javascript">
+  /*======================================/
+ /  Yet another one dreamt by SPaceFrog  /
+/ =====================================*/
+var tabanim
+function reflect(){
+var tabmirroir=new Array();
+var tabimg=document.getElementsByTagName('img');
+var blancstrip=document.createElement('div');
+with(blancstrip){
+	style.width='1px';
+	style.position='absolute';
+	style.float='left';
+	style.top=0;
+	innerHTML=""
+	display="block";
+	overflow="hidden";
+	style.fontSize="0px";
+	style.lineHeight="0px";
+	style.border="solid 0px";
+	style.margin="0px";
+	style.padding="0px";
+	style.overflow="hidden";
+	className="anim";}
+ 
+ 
+var blancholder=document.createElement('div');
+ 
+ 
+//recupération des images à traiter
+var i=0;
+while(tabimg[i] ){
+	if (/(^|\W)miroir\d?(\W|$)/.test(tabimg[i].className)){
+	 	tabmirroir.push(tabimg[i])
+	 	 }
+	 i++;	 
+}	 
+ 
+//duplication bande par bande
+i=0
+while(tabmirroir[i++]){
+	blancstrip.style.backgroundImage="url('"+tabmirroir[i-1].src+"')";
+	var imgtop=tabmirroir[i-1].offsetTop;
+	var imgleft=tabmirroir[i-1].offsetLeft;
+	var imgwidth=tabmirroir[i-1].offsetWidth;
+	var imgheight=tabmirroir[i-1].offsetHeight;
+	var j=0;
+	var holder=blancholder.cloneNode(true);
+ 
+	//creation du conteneur des bandes
+ 	with(holder){
+		style.position='absolute';
+		style.top=imgtop+"px";
+		style.width=imgwidth +"px"
+		}
+	//creation des bandes		
+	while(j++<imgwidth){
+		var puzzlestrip=blancstrip.cloneNode(true)
+		puzzlestrip.style.height=imgheight+"px";
+		puzzlestrip.style.left=imgwidth+ 50 + imgleft+j+"px";
+		puzzlestrip.style.top=0;
+		puzzlestrip.style.backgroundPosition=-j+"px 0px"
+		holder.appendChild(puzzlestrip)
+ 
+	}
+      	document.body.appendChild(holder)	
+  }
+animatemiror()	
+}
+ 
+function animatemiror(){
+	var tabdivs=document.getElementsByTagName('div');
+	tabanim=new Array();
+	var i=0;
+ 
+	while(tabdivs[i] ){
+		if (/(^|\W)anim\d?(\W|$)/.test(tabdivs[i].className)){
+	 	tabanim.push(tabdivs[i])
+	 	 }
+	 i++;	 
+	}	 
+	i=0;
+  		setInterval(function(){animstrip()},50) ;
+ 
+}
+ 
+var steps=new Array(0,0,0,0,0,1,1,1,1,1,2,2,3,3,3,4,4,4,4,4,5,5,5,5,5)
+var opac= new Array(7,7,7,7,7,7,7,7.5,7.5,8,8,8.5,9,9,9,9.7,9.8,10,10,10,10,10,10,10,10)
+var decal=0
+var up=1
+function animstrip(){
+var i=0
+while(tabanim[i++]){
+     with(tabanim[i-1]){
+	style.marginTop=steps[decal+up]+"px";
+	style.opacity =  (opac[decal+up]/10);
+	style.filter = 'alpha(opacity=' + opac[decal+up]*10 + ')';
+	}
+	up=(decal==steps.length-2)?-1:up;
+	up=(decal==1)?1:up;
+	decal=decal+up;
+	}
+}
+ 
+</script>
+ 
+</head>
+ 
+<body onload="reflect()">
+<img id="one" src="img/logo.gif" class="miroir anim " />
+</body>
+ 
+</html>
